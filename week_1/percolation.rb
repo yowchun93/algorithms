@@ -1,0 +1,5 @@
+
+# percolation
+def percolation
+	
+end
