@@ -1,4 +1,5 @@
 
-def three_sum
-
+def quadratic_three_sum
+	count = 0
+	
 end
