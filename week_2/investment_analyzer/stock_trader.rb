@@ -1,0 +1,5 @@
+class StockTrader
+
+	
+
+end
