@@ -4,7 +4,6 @@ require_relative 'investment_query'
 require 'byebug'
 require 'benchmark'
 
-
 class Program
 
 	def run
@@ -13,19 +12,29 @@ class Program
 		## 
 		puts "querying"
 		# benchmark
-		50000.times do 
-			analyzer.handle_query(create_query)
+		Benchmark.bm do |x|
+			x.report { 
+				5000.times do 
+					analyzer.handle_query(create_query)
+				end 
+			}
+		end
+		
+		puts "analyzing query"
+		## analysis of queries
+		Benchmark.bm do |x|
+			x.report { analyzer.analyze_queries }
 		end
 
-		## analysis of queries
-		analyzer.analyze_queries
-
-		stock_trader.handle_trading
-
+		puts "handling trading"
+		Benchmark.bm do |x|
+			x.report { stock_trader.handle_trading }
+		end
+		
 	end
 
 	def create_query
-		stock_id =  "Stock" + rand(10000).to_s
+		stock_id =  "Stock" + rand(100).to_s
 		return InvestmentQuery.new(stock_id: stock_id, 
 			query_time: Time.now, priority: rand(5), investor: "someone")
 	end

@@ -16,13 +16,14 @@ class InvestmentAnalyzer
 	end
 
 	def analyze_queries
+		## did not remove the query from @queries
 		while(@queries.count > 0)
 			rating = 0
 			query = get_first_priority(@queries)
 			
 			# linear time operation also
 			cache_element = @stock_2_rating.find { |a| a.stock_id == query.stock_id }
-			
+
 			if !cache_element.nil?
 				rating = cache_element.rating
 			else
@@ -32,8 +33,10 @@ class InvestmentAnalyzer
 			end
 			## redundant part
 			if rating > 80
-				stock_trader.enqueue_stock_for_trading(query)
+				@stock_trader.enqueue_stock_for_trading(query)
 			end
+			# delete take o(n)
+			@queries.delete(query)
 		end
 	end
 
@@ -61,7 +64,10 @@ end
 
 
 class RatingCacheElement
-	def initialize(stock_id, rating)
+	
+	attr_accessor :stock_id, :rating
+	
+	def initialize(stock_id:, rating:)
 		@stock_id = stock_id
 		@rating = rating
 	end
