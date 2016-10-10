@@ -19,12 +19,10 @@ class InvestmentAnalyzer
 		while(@queries.count > 0)
 			rating = 0
 			query = get_first_priority(@queries)
-
-			## delete min cache
-			query = @queries.delete_min
-
+			
+			# linear time operation also
 			cache_element = @stock_2_rating.find { |a| a.stock_id == query.stock_id }
-
+			
 			if !cache_element.nil?
 				rating = cache_element.rating
 			else
@@ -44,11 +42,10 @@ class InvestmentAnalyzer
 	## why not just pass in the instance variable?
 	def get_first_priority(queries)
 		min_query = nil
+		# linear time loop o(n) , compare every single element
 		queries.each do |query|
 			# if min_query in nil or query is smaller than min_query
-			
-			## min_query is nil, how to compare? 
-			if(min_query.nil? || query <=> min_query < 0 )
+			if(min_query.nil? || (query <=> min_query) < 0 )
 				min_query = query
 			end
 		end
@@ -57,7 +54,7 @@ class InvestmentAnalyzer
 	end
 
 	def calculate_rating(stock_id)
-		rand.(100)
+		rand(100)
 	end
 
 end
