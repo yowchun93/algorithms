@@ -1,27 +1,35 @@
 require 'byebug'
+require 'algorithms'
 
 class InvestmentAnalyzer
+	include Containers
 	attr_accessor :queries , :stock_2_rating
 
 	def initialize(stock_trader)
 		@stock_trader = stock_trader
-		@queries = []
+		# queries is a dynamic array
+		# use interval heap for queries
+		# @queries = []
+		@queries = MinHeap.new
+
 		## stores the cache of stocks and its rating 
 		@stock_2_rating = []
 	end
 
 	#public interface
 	def handle_query(query)
-		@queries << (query)
+		@queries << query
 	end
-
+	
 	def analyze_queries
 		## did not remove the query from @queries
-		while(@queries.count > 0)
+		while(@queries.size > 0)
 			rating = 0
-			query = get_first_priority(@queries)
+			# query = get_first_priority(@queries)
 			
-			# linear time operation also
+			query = @queries.pop
+
+			# linear time operation o(n)
 			cache_element = @stock_2_rating.find { |a| a.stock_id == query.stock_id }
 
 			if !cache_element.nil?

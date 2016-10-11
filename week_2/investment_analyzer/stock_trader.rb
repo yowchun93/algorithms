@@ -1,6 +1,7 @@
 class StockTrader
 
 	def initialize
+		## change the stock_to_trade into a linked-list
 		@stocks_to_trade = []
 	end
 

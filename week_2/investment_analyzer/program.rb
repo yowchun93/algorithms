@@ -4,6 +4,7 @@ require_relative 'investment_query'
 require 'byebug'
 require 'benchmark'
 
+
 class Program
 
 	def run
@@ -13,6 +14,8 @@ class Program
 		puts "querying"
 		# benchmark
 		Benchmark.bm do |x|
+			# 0.6 seconds for dynamic array
+			# 
 			x.report { 
 				5000.times do 
 					analyzer.handle_query(create_query)
